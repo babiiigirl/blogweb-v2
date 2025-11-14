@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 
 app.use(cors());
-
+app.use(jsonParser);
 
 app.get("/posts", (req, res) => {
   res.json(BlogPosts);
@@ -23,16 +23,27 @@ app.get("/posts/:id", (req, res) => {
   }
 });
 
-app.post("/api/post", jsonParser, (req, res) => {
+app.post("/newpost", jsonParser, (req, res) => {
   const post = {
     id: req.body.id,
     title: req.body.title,
     description: req.body.description,
   };
-  BlogPosts.BlogPosts.push(post);
+  BlogPosts.push(post);
   res.status(200).send({ message: "Posted successful" });
 });
 
+app.post("/login", jsonParser, (req, res) => {
+  const creds = {
+    username: req.body.username,
+    password: req.body.password,
+  };
+  if (creds.username === "admin" && creds.password === "123") {
+    res.status(200).send({ message: "Login successful" });
+  } else {
+    res.status(401).send({ message: "Login failed" });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)
