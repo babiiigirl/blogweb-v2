@@ -3,6 +3,7 @@ const app = express()
 const cors = require("cors");
 const port = 8080
 const { BlogPosts } = require("./BlogPosts");
+const { Users } = require("./Users");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 
@@ -32,6 +33,19 @@ app.post("/newpost", jsonParser, (req, res) => {
   BlogPosts.push(post);
   res.status(200).send({ message: "Posted successful" });
 });
+
+app.post("/adduser", jsonParser, (req, res) => {
+  const user = {
+    username: req.body.username,
+    password: req.body.password,
+    fullname: req.body.fullname
+  }
+  if (Users.find(u => u.username === user.username)) {
+    return res.status(400).send({ message: "Username already exists" });
+  }
+  Users.push(user);
+  res.status(200).send({ message: "User added successfully" });
+})
 
 app.post("/login", jsonParser, (req, res) => {
   const creds = {

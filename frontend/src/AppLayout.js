@@ -1,5 +1,6 @@
 import { Link, Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import NewPost from './NewPost';
+import NewUser from './NewUser';
 import Post from './Post';
 import PostLists from './PostLists';
 import Login from './Login';
@@ -69,6 +70,9 @@ export default function AppLayout() {
         {user && <Link to="/newpost" style={{ padding: 5 }}>
           New Post
         </Link>}
+        {user && <Link to="/newuser" style={{ padding: 5 }}>
+          New User
+        </Link>}
         {!user && <Link to="/login" style={{ padding: 5 }}>
           Login
         </Link>}
@@ -83,6 +87,7 @@ export default function AppLayout() {
         <Route path="/login" element={<Login onLogin={setUser}/>}/>
         <Route path="/stats" element={<ProtectedRoute user={user}><Stats/></ProtectedRoute>} />
         <Route path="/newpost" element={<ProtectedRoute user={user}><NewPost /></ProtectedRoute>} />
+        <Route path="/newuser" element={<ProtectedRoute user={user}><NewUser /></ProtectedRoute>} />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
